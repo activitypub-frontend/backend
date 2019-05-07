@@ -13,6 +13,7 @@ const sequelize = new Sequelize({
    dialect: 'sqlite',
    storage: process.env.DB_URL
 });
+global.sequelize = sequelize;
 sequelize
   .authenticate()
   .then(() => {
@@ -21,6 +22,9 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+
+// load models
+const AppInstanceModel = require('./models/appData.js');
 
 // setup express logging
 app.use(morgan('combined'));
