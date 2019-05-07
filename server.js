@@ -32,6 +32,9 @@ app.use(morgan('combined'));
 // load submodule frontend as static
 app.use(express.static('public'));
 
+// Parse body JSON
+app.use(express.json());
+
 // API-Endpoints
 app.post('/getTTS', (req, res) => {
   request.post(process.env.WATSON_API_URL, {
