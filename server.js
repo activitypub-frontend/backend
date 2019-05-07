@@ -5,7 +5,11 @@ const express = require('express');
 const request = require('request');
 const btoa = require('btoa');
 const app = express();
-app.use(express.json());
+
+// load submodule frontend as static
+app.use(express.static('public'));
+
+// API-Endpoints
 app.post('/getTTS', (req, res) => {
 	request.post((process.env.WATSON_API_URL, {
 		headers: {
@@ -19,6 +23,7 @@ app.post('/getTTS', (req, res) => {
 		})
 	}).pipe(res);
 });
+
 app.post('/getFile', (req, res) => request.get(req.body.url).pipe(res));
-app.use(express.static('public'));
+
 app.listen(5000, () => console.log('Listening on http://127.0.0.1:5000/'));
