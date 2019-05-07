@@ -1,11 +1,25 @@
 /* eslint-disable no-console */
 require('dotenv').config();
-console.log(process.env.API_URL);
 const express = require('express');
 const request = require('request');
 const btoa = require('btoa');
 const app = express();
 
+// Initialize Database
+console.log(process.env.DB_URL);
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize({
+   dialect: 'sqlite',
+   storage: process.env.DB_URL
+});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 // load submodule frontend as static
 app.use(express.static('public'));
 
