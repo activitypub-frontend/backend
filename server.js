@@ -4,24 +4,24 @@ const express = require('express');
 const request = require('request');
 const btoa = require('btoa');
 const app = express();
-const morgan = require('morgan')
+const morgan = require('morgan');
 
 // Initialize Database
 console.log(process.env.DB_URL);
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
-   dialect: 'sqlite',
-   storage: process.env.DB_URL
+  dialect: 'sqlite',
+  storage: process.env.DB_URL,
 });
 global.sequelize = sequelize;
 sequelize
-  .authenticate()
-  .then(() => {
-    console.log('DB Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+    .authenticate()
+    .then(() => {
+      console.log('DB Connection has been established successfully.');
+    })
+    .catch((err) => {
+      console.error('Unable to connect to the database:', err);
+    });
 
 // load models
 const AppInstanceModel = require('./models/appData.js');

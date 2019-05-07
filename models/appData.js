@@ -3,23 +3,23 @@ const Sequelize = require('sequelize');
 
 const AppInstance = sequelize.define('AppInstance', {
   id: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: uuid()
+    allowNull: false,
+    primaryKey: true,
+    type: Sequelize.UUID,
+    defaultValue: uuid(),
   },
   mastodonInstance: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   client_id: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   client_secret: {
     type: Sequelize.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 }, {
   // options
 });
