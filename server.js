@@ -4,6 +4,7 @@ const express = require('express');
 const request = require('request');
 const btoa = require('btoa');
 const app = express();
+const morgan = require('morgan')
 
 // Initialize Database
 console.log(process.env.DB_URL);
@@ -20,6 +21,10 @@ sequelize
   .catch(err => {
     console.error('Unable to connect to the database:', err);
   });
+
+// setup express logging
+app.use(morgan('combined'));
+
 // load submodule frontend as static
 app.use(express.static('public'));
 
