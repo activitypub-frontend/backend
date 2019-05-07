@@ -1,13 +1,15 @@
 /* eslint-disable no-console */
+require('dotenv').config();
+console.log(process.env.API_URL)
 const express = require('express');
 const request = require('request');
 const btoa = require('btoa');
 const app = express();
 app.use(express.json());
 app.post('/getTTS', (req, res) => {
-	request.post('https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize?voice=de-DE_BirgitVoice', {
+	request.post((process.env.WATSON_API_URL, {
 		headers: {
-			Authorization: 'Basic ' + btoa(''),
+			Authorization: 'Basic ' + btoa(process.env.WATSON_API_KEY),
 			Accept: 'audio/mpeg',
 			'Content-Type': 'application/json'
 		},
