@@ -1,0 +1,4 @@
+[submodule "public"]
+	path = public
+	url = git@github.com:activitypub-frontend/frontend.git
+	branch = master
