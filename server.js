@@ -81,11 +81,33 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
                     res.status(500).send();
                     return;
                 }
-                console.log(JSON.parse(httpResponse.body));
-                res.send("");
+                const jBody = JSON.parse(body);
+                console.log(jBody);
+
+                if (jBody.client_id && jBody.client_secret) {
+                    AppInstanceModel.create({
+                        mastodonInstance: req.params.instance,
+                        client_id: jBody.client_id,
+                        client_secret: jBody.client_secret
+                    }).then(() => {
+                        res.json({
+                            success: true,
+                            client_id: jBody.client_id
+                        });
+                        return;
+                    }).catch((e) => {
+                        console.log(e);
+                        res.status(500).send();
+                        return;
+                    });
+                } else {
+                    res.json({
+                        success: false
+                    });
+                }
             });
         } else {
-            res.send("");
+            res.json({success: true, client_id: data[0].client_id});
         }
 
     });

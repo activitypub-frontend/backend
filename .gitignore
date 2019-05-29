@@ -106,3 +106,4 @@ typings/
 .history
 
 # End of https://www.gitignore.io/api/visualstudiocode
+.sqlite3
