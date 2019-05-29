@@ -63,27 +63,29 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
         if (data.length != 1) {
             // Get API Data from the AppInstance
             console.log("Register app with " + req.params.instance);
-            request.post('https://'+req.params.instance + "/api/v1/apps", {form: {
-                client_name: 'dashboard.tinf17.in',
-                scopes: 'read',
-                redirect_uris: 'https://dashboard.tinf17.in'
-            }},(err,httpResponse,body) => {
-              if(err) {
-              console.log(err);
-              console.log("ERROR!");
-              res.status(500).send();
-              return;
-              }
-              if(httpResponse.statusCode!=200) {
-              console.log(httpResponse.statusCode);
-              res.status(500).send();
-              return;
-              }
-              console.log(JSON.parse(httpResponse.body));
-              res.send("");
+            request.post('https://' + req.params.instance + "/api/v1/apps", {
+                form: {
+                    client_name: 'dashboard.tinf17.in',
+                    scopes: 'read',
+                    redirect_uris: 'https://dashboard.tinf17.in'
+                }
+            }, (err, httpResponse, body) => {
+                if (err) {
+                    console.log(err);
+                    console.log("ERROR!");
+                    res.status(500).send();
+                    return;
+                }
+                if (httpResponse.statusCode != 200) {
+                    console.log(httpResponse.statusCode);
+                    res.status(500).send();
+                    return;
+                }
+                console.log(JSON.parse(httpResponse.body));
+                res.send("");
             });
         } else {
-          res.send("");
+            res.send("");
         }
 
     });
