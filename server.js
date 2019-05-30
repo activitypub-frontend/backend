@@ -121,10 +121,45 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
 // Catch POST's from mastodon auth
 app.all('/', (req, res, next) => {
     console.log(req.query);
-    if (req.query.code) {
-        console.log("Received Code, register");
-        console.log(req.cookies);
-        res.redirect('/?mLogin=0&mCode='+req.query.code);
+    if (req.query.code && req.cookies.mInstance) {
+        console.log("Received Code and Instance, register");
+        AppInstanceModel.findAll({
+            where: {
+                mastodonInstance: req.cookies.mInstance
+            }
+        }).then((data) => {
+            request.post('https://' + req.params.instance + "/oauth/token", {
+                form: {
+                    client_id: data[0].client_id,
+                    client_secret: data[0].client_secret,
+                    grant_type: "authorization_code",
+                    redirect_uri: 'https://dashboard.tinf17.in',
+                    code: req.query.code
+                }
+            }, (err, httpResponse, body) => {
+                console.log(body);
+                if (err) {
+                    console.log(err);
+                    console.log("ERROR!");
+                    res.redirect('/?mLogin=0');
+                    return;
+                }
+                if (httpResponse.statusCode != 200) {
+                    console.log(httpResponse.statusCode);
+                    res.redirect('/?mLogin=0');
+                    return;
+                }
+                const jBody = JSON.parse(body);
+                console.log(jBody);
+
+                if (jBody.access_token) {
+                    res.redirect('/?mLogin=0&mCode=' + jBody.access_token);
+                } else {
+                    res.redirect('/?mLogin=0');
+                }
+            });
+        });
+
     } else {
         next();
     }
