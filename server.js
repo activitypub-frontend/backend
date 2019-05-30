@@ -118,6 +118,7 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
 
 // Catch POST's from mastodon auth
 app.all('/', (req, res, next) => {
+  console.log(req.query);
   if(req.query.code) {
     console.log("Received Code, register");
     console.log(req.cookies);
