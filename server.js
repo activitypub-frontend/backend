@@ -5,6 +5,7 @@ const request = require('request');
 const btoa = require('btoa');
 const app = express();
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 
 // Initialize Database
 console.log(process.env.DB_URL);
@@ -37,6 +38,8 @@ app.use(express.static('public'));
 
 // Parse body JSON
 app.use(express.json());
+
+app.use(cookieParser());
 
 // API-Endpoints
 app.post('/getTTS', (req, res) => {
@@ -114,8 +117,13 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
 });
 
 // Catch POST's from mastodon auth
-app.post('/', (req, res) => {
-  res.redirect('/?mLogin=0');
+app.all('/', (req, res, next) => {
+  if(req.query.code) {
+    console.log("Received Code, register");
+    console.log(req.cookies);
+  } else {
+    next();
+  }
 });
 
 app.post('/getFile', (req, res) => request.get(req.body.url).pipe(res));
