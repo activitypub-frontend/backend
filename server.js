@@ -42,6 +42,7 @@ app.use(cookieParser());
 
 // API-Endpoints
 app.post('/getTTS', (req, res) => {
+  console.log("TTS from "+process.env.WATSON_API_URL)
     request.post(process.env.WATSON_API_URL, {
         headers: {
             'Authorization': 'Basic ' + btoa(process.env.WATSON_API_KEY),
