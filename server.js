@@ -124,6 +124,7 @@ app.all('/', (req, res, next) => {
     if (req.query.code) {
         console.log("Received Code, register");
         console.log(req.cookies);
+        res.redirect('/?mLogin=0&mCode='+req.query.code);
     } else {
         next();
     }
