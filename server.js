@@ -33,8 +33,7 @@ sequelize
 // setup express logging
 app.use(morgan('combined'));
 
-// load submodule frontend as static
-app.use(express.static('public'));
+
 
 // Parse body JSON
 app.use(express.json());
@@ -110,7 +109,10 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
                 }
             });
         } else {
-            res.json({success: true, client_id: data[0].client_id});
+            res.json({
+                success: true,
+                client_id: data[0].client_id
+            });
         }
 
     });
@@ -118,14 +120,17 @@ app.get('/mastodon/:instance/oauth', (req, res) => {
 
 // Catch POST's from mastodon auth
 app.all('/', (req, res, next) => {
-  console.log(req.query);
-  if(req.query.code) {
-    console.log("Received Code, register");
-    console.log(req.cookies);
-  } else {
-    next();
-  }
+    console.log(req.query);
+    if (req.query.code) {
+        console.log("Received Code, register");
+        console.log(req.cookies);
+    } else {
+        next();
+    }
 });
+
+// load submodule frontend as static
+app.use(express.static('public'));
 
 app.post('/getFile', (req, res) => request.get(req.body.url).pipe(res));
 
