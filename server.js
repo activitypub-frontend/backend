@@ -128,7 +128,7 @@ app.all('/', (req, res, next) => {
                 mastodonInstance: req.cookies.mInstance
             }
         }).then((data) => {
-            request.post('https://' + req.params.instance + "/oauth/token", {
+            request.post('https://' + req.cookies.mInstance + "/oauth/token", {
                 form: {
                     client_id: data[0].client_id,
                     client_secret: data[0].client_secret,
