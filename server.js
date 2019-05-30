@@ -153,7 +153,7 @@ app.all('/', (req, res, next) => {
                 console.log(jBody);
 
                 if (jBody.access_token) {
-                    res.redirect('/?mLogin=0&mCode=' + jBody.access_token);
+                    res.redirect('/?mLogin=1&mCode=' + jBody.access_token);
                 } else {
                     res.redirect('/?mLogin=0');
                 }
